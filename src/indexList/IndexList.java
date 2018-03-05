@@ -54,6 +54,11 @@ public interface IndexList<T> {
 	 **/ 
 	void add(T e); 
 	
+//	The purpose of this method is to return the integer value corresponding 
+//	to the capacity of the current instance (the length of the internal array). 
+	int capacity();
+	
+	
 	// See the specification for the next two methods in the 
     // documentation for ArrayList in the official Java web page.
 	Object[] toArray(); 
