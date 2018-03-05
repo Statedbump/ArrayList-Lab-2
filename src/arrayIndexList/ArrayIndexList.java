@@ -14,20 +14,33 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		size = 0; 
 	} 
 	
-
+	//For Validating
+	private boolean valid(int i, int m){
+		return(i>=0 && i<m);
+		
+	}
 	public void add(int index, E e) throws IndexOutOfBoundsException {
-		// ADD CODE AS REQUESTED BY EXERCISES
+		if(!valid(index,size))
+			throw new IndexOutOfBoundsException("Invalid index");
+		if(size == element.length)
+			this.changeCapacity(CAPTOAR);
+		for(int i = size -1;i>= index;i++){
+			element[i+1]= element[i];
+		}
+		element[index]= e;
+		size++;
 	}
 
 
 	public void add(E e) {
-		// ADD CODE AS REQUESTED BY EXERCISES
+		add(size,e);
 	}
 
 
 	public E get(int index) throws IndexOutOfBoundsException {
-		// ADD AND MODIGY CODE AS REQUESTED BY EXERCISES
-		return null; 
+		if(!valid(index,size))
+			throw new IndexOutOfBoundsException("Invalid index");
+		return element[index]; 
 	}
 
 
@@ -37,8 +50,15 @@ public class ArrayIndexList<E> implements IndexList<E> {
 
 
 	public E remove(int index) throws IndexOutOfBoundsException {
-		// ADD AND MODIFY CODE AS REQUESTED BY EXERCISES
-		return null;
+		if(!valid(index,size))
+			throw new IndexOutOfBoundsException("Invalid index");
+		E etr = element[index];
+		for(int i = index;i<size;i++){
+			element[i]= element[i+1];
+		}
+		element[size-1]=null;
+		size--;
+		return etr;
 	}
 
 
