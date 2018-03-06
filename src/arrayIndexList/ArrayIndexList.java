@@ -45,7 +45,7 @@ public void add(int index, E e) throws IndexOutOfBoundsException {
 
 	public E get(int index) throws IndexOutOfBoundsException {
 		if(!valid(index,size-1))
-			throw new IndexOutOfBoundsException("Invalid index");
+			throw new IndexOutOfBoundsException("get: Invalid Index = " + index);
 		return element[index]; 
 	}
 
@@ -57,7 +57,7 @@ public void add(int index, E e) throws IndexOutOfBoundsException {
 
 	public E remove(int index) throws IndexOutOfBoundsException {
 		if(!valid(index,size))
-			throw new IndexOutOfBoundsException("Invalid index");
+			throw new IndexOutOfBoundsException("remove: Invalid Index = " + index);
 		
 		if(element.length-size>MAXEMPTYPOS)
 			changeCapacity(-CAPTOAR);
@@ -75,7 +75,7 @@ public void add(int index, E e) throws IndexOutOfBoundsException {
 
 	public E set(int index, E e) throws IndexOutOfBoundsException {
 		if(!valid(index,size)) {
-			throw new IndexOutOfBoundsException("Invalid index");
+			throw new IndexOutOfBoundsException("set: Invalid Index = " + index);
 		}
 		E etr = element[index];
 		element[index]=e;
@@ -132,16 +132,18 @@ public void add(int index, E e) throws IndexOutOfBoundsException {
 	@Override
 	public <T1> T1[] toArray(T1[] array) { 
 		if (array.length < this.size()) { 
-			array = (T1[]) Array.newInstance(array.getClass().getComponentType(), this.size());
+			//Creates a new instace of the array with the size of the list
+			array = (T1[]) Array.newInstance(array.getClass().getComponentType(), size);
 		} 
 		else if (array.length > this.size()){
-			for (int j=this.size(); j< array.length; j++){
+			for (int j=this.size; j< array.length; j++) 
+				//Sets the remaining elements in those index to null
 				array[j] = null;
-			}
+			
 		}
-		for (int i=0; i < size; i++) {
+		for (int i=0; i < size; i++) 
 			array[i] = (T1) element[i];
-		}
+		
 		return array;	
 }
 	@Override
