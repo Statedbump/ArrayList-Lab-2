@@ -1,5 +1,7 @@
 package arrayIndexList;
 
+import java.lang.reflect.Array;
+
 import indexList.IndexList;
 
 public class ArrayIndexList<E> implements IndexList<E> {
@@ -19,17 +21,7 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		return(i<m || i>0);
 		
 	}
-//	public void add(int index, E e) throws IndexOutOfBoundsException {
-//		if(index>size || )
-//			throw new IndexOutOfBoundsException("Invalid index");
-//		if(size == element.length)
-//			this.changeCapacity(CAPTOAR);
-//		for(int i = size -1;i>= index;i--){
-//			element[i+1]= element[i];
-//		}
-//		element[index]= e;
-//		size++;
-//	}
+
 public void add(int index, E e) throws IndexOutOfBoundsException {
 		
 		if(index>size || index<0){
@@ -52,7 +44,7 @@ public void add(int index, E e) throws IndexOutOfBoundsException {
 
 
 	public E get(int index) throws IndexOutOfBoundsException {
-		if(!valid(index,size))
+		if(!valid(index,size-1))
 			throw new IndexOutOfBoundsException("Invalid index");
 		return element[index]; 
 	}
@@ -67,8 +59,9 @@ public void add(int index, E e) throws IndexOutOfBoundsException {
 		if(!valid(index,size))
 			throw new IndexOutOfBoundsException("Invalid index");
 		
-		if(element.length>size+CAPTOAR)
+		if(element.length-size>MAXEMPTYPOS)
 			changeCapacity(-CAPTOAR);
+		
 		if(index<size-1){
 			moveDataOnePositionTL(index+1, size-1);
 		}
@@ -137,14 +130,20 @@ public void add(int index, E e) throws IndexOutOfBoundsException {
 
 
 	@Override
-	public <T1> T1[] toArray(T1[] array) {
-		array = (T1[]) new Object [size()];
-		for(int i = 0;i<this.size();i++) {
-			array[i]=(T1) element[i];
+	public <T1> T1[] toArray(T1[] array) { 
+		if (array.length < this.size()) { 
+			array = (T1[]) Array.newInstance(array.getClass().getComponentType(), this.size());
+		} 
+		else if (array.length > this.size()){
+			for (int j=this.size(); j< array.length; j++){
+				array[j] = null;
+			}
 		}
-		return array;
-	}
-
+		for (int i=0; i < size; i++) {
+			array[i] = (T1) element[i];
+		}
+		return array;	
+}
 	@Override
 	public int capacity() {
 		// TODO Auto-generated method stub
